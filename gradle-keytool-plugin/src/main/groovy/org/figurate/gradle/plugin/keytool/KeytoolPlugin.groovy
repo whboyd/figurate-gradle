@@ -10,6 +10,7 @@ class KeytoolPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        project.extensions.add('keytool', new KeytoolExt())
         project.buildDir.mkdirs()
         project.task('keytool', type: KeytoolTask)
 

@@ -12,6 +12,33 @@ class KeytoolTaskSpec extends Specification {
     def 'test list certs'() {
         given:
         Project project = ProjectBuilder.builder().build()
+        project.extensions.add('keytool', new KeytoolExt())
+        project.task('keytool', type: KeytoolTask)
+
+        and:
+        project.tasks.keytool {
+            args '-list'
+            options {
+                keystore = "${System.getenv()['JAVA_HOME']}/jre/lib/security/cacerts"
+                storepass = 'changeit'
+            }
+        }
+
+        and: 'capture output'
+        project.tasks.keytool.standardOutput = new ByteArrayOutputStream()
+
+        when:
+        project.tasks.keytool.execute()
+
+        then:
+        project.tasks.keytool.standardOutput.toString().startsWith('\nKeystore type: ')
+    }
+    
+    def 'setting keytool.javaHome works'() {
+        given:
+        Project project = ProjectBuilder.builder().build()
+        project.extensions.add('keytool', new KeytoolExt())
+        project.keytool.javaHome = "${System.getenv()['JAVA_HOME']}"
         project.task('keytool', type: KeytoolTask)
 
         and:

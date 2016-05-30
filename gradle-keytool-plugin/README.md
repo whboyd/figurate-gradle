@@ -2,7 +2,11 @@
 
 # Requirements
 
-In order to run the Keytool plugin you must ensure your JAVA_HOME environment variable is set to a JDK location.
+In order to run the Keytool plugin you must ensure your JAVA_HOME environment variable is set to a JDK location, or you must specify a javaHome like so:
+
+    keytool {
+        javaHome = '/path/to/my/jdk/'
+    }
 
 # Common Keytool Commands:
 

@@ -10,7 +10,8 @@ import java.security.KeyStore
 class KeytoolTask extends Exec {
 
     KeytoolTask() {
-        executable "${new File((String) environment['JAVA_HOME'], 'bin').canonicalPath}/keytool"
+        def javaHome = project.keytool.javaHome ? project.keytool.javaHome : environment['JAVA_HOME']
+        executable "${new File((String) javaHome, 'bin').canonicalPath}/keytool"
         extensions.add('options', new KeytoolArgsExtension())
     }
 
